@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Product } from "../../common/types/product";
 import CartItem from "../../components/CartItem";
+import CartEmptyMessage from "../../components/CartEmptyMessage";
 
 type CartPageProps = {
   cartItems: Product[];
@@ -43,9 +44,7 @@ const CartPage = ({ cartItems, removeFromCart }: CartPageProps) => {
               <CartItem item={item} removeFromCart={removeFromCart} />
             ))
           ) : (
-            <div style={{ marginTop: "15px" }}>
-              <Typography>Não existem produtos no carrinho.</Typography>
-            </div>
+            <CartEmptyMessage />
           )}
         </div>
         <div className={Styles.cartSummary}>
