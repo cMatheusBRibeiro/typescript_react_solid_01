@@ -1,16 +1,20 @@
 import Button from "../Button";
 import Styles from "./CartSummaryActions.module.css";
 
-type CartSummaryActionsType = {
+export type CartSummaryActionsType = {
   handleRedirect: () => void;
+  onPayment: () => void;
 };
 
-const CartSummaryActions = ({ handleRedirect }: CartSummaryActionsType) => (
+const CartSummaryActions = ({
+  handleRedirect,
+  onPayment,
+}: CartSummaryActionsType) => (
   <div className={Styles.cartActions}>
     <Button onClick={handleRedirect} variant="secondary">
       Continuar comprando
     </Button>
-    <Button onClick={() => console.log("pagamento")}>Ir para pagamento</Button>
+    <Button onClick={onPayment}>Ir para pagamento</Button>
   </div>
 );
 

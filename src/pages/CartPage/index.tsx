@@ -19,6 +19,8 @@ const CartPage = ({ cartItems, removeFromCart }: CartPageProps) => {
 
   const handleRedirect = () => navigate("/");
 
+  const handlePayment = () => console.log("pagamento");
+
   return (
     <main className="container">
       <div className={Styles.cartTitle}>
@@ -31,6 +33,7 @@ const CartPage = ({ cartItems, removeFromCart }: CartPageProps) => {
           cartItems={cartItems}
           total={total}
           freight={freight}
+          onPayment={handlePayment}
           handleRedirect={handleRedirect}
         />
       </section>

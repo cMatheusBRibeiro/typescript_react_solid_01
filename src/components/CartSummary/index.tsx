@@ -1,6 +1,8 @@
 import { ShoppingBagIcon } from "../../common/icons/ShoppingBagIcon";
 import { Product } from "../../common/types/product";
-import CartSummaryActions from "../CartSummaryActions";
+import CartSummaryActions, {
+  CartSummaryActionsType,
+} from "../CartSummaryActions";
 import Divider from "../Divider";
 import Field from "../Field";
 import Typography from "../Typography";
@@ -10,14 +12,14 @@ type CartSummaryProps = {
   cartItems: Product[];
   total: number;
   freight: number;
-  handleRedirect: () => void;
-};
+} & CartSummaryActionsType;
 
 const CartSummary = ({
   cartItems,
   total,
   freight,
   handleRedirect,
+  onPayment,
 }: CartSummaryProps) => {
   return (
     <div className={Styles.cartSummary}>
@@ -50,7 +52,10 @@ const CartSummary = ({
           R$ {total + freight}
         </Typography>
       </div>
-      <CartSummaryActions handleRedirect={handleRedirect} />
+      <CartSummaryActions
+        handleRedirect={handleRedirect}
+        onPayment={onPayment}
+      />
     </div>
   );
 };
