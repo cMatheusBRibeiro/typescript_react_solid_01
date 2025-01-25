@@ -3,9 +3,8 @@ import Styles from "./CartPage.module.css";
 import { useNavigate } from "react-router-dom";
 
 import { Product } from "../../common/types/product";
-import CartItem from "../../components/CartItem";
-import CartEmptyMessage from "../../components/CartEmptyMessage";
 import CartSummary from "../../components/CartSummary";
+import CartList from "../../components/CartList";
 
 type CartPageProps = {
   cartItems: Product[];
@@ -18,9 +17,7 @@ const CartPage = ({ cartItems, removeFromCart }: CartPageProps) => {
 
   const navigate = useNavigate();
 
-  const handleRedirect = () => {
-    navigate("/");
-  };
+  const handleRedirect = () => navigate("/");
 
   return (
     <main className="container">
@@ -29,18 +26,7 @@ const CartPage = ({ cartItems, removeFromCart }: CartPageProps) => {
       </div>
 
       <section className={Styles.cartPage}>
-        <div className={Styles.cartItems}>
-          <Typography variantStyle="body-large-bold">
-            Detalhes da compra
-          </Typography>
-          {cartItems?.length > 0 ? (
-            cartItems.map((item) => (
-              <CartItem item={item} removeFromCart={removeFromCart} />
-            ))
-          ) : (
-            <CartEmptyMessage />
-          )}
-        </div>
+        <CartList cartItems={cartItems} onRemove={removeFromCart} />
         <CartSummary
           cartItems={cartItems}
           total={total}
