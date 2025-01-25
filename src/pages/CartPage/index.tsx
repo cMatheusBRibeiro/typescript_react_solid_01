@@ -1,7 +1,3 @@
-import { ShoppingBagIcon } from "../../common/icons/ShoppingBagIcon";
-import Button from "../../components/Button";
-import Divider from "../../components/Divider";
-import Field from "../../components/Field";
 import Typography from "../../components/Typography";
 import Styles from "./CartPage.module.css";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Product } from "../../common/types/product";
 import CartItem from "../../components/CartItem";
 import CartEmptyMessage from "../../components/CartEmptyMessage";
+import CartSummary from "../../components/CartSummary";
 
 type CartPageProps = {
   cartItems: Product[];
@@ -33,10 +30,7 @@ const CartPage = ({ cartItems, removeFromCart }: CartPageProps) => {
 
       <section className={Styles.cartPage}>
         <div className={Styles.cartItems}>
-          <Typography
-            variantStyle="body-large-bold"
-            className={Styles.cartItemTitle}
-          >
+          <Typography variantStyle="body-large-bold">
             Detalhes da compra
           </Typography>
           {cartItems?.length > 0 ? (
@@ -47,45 +41,12 @@ const CartPage = ({ cartItems, removeFromCart }: CartPageProps) => {
             <CartEmptyMessage />
           )}
         </div>
-        <div className={Styles.cartSummary}>
-          <Typography variantStyle="heading-small">Sumário</Typography>
-          <div className={Styles.discount}>
-            <Field
-              label="Cupom de desconto"
-              inputId="cupom"
-              inputPlaceholder="Digite o cupom"
-              buttonText="Ok"
-              onButtonClick={() => {}}
-              onChange={() => {}}
-            />
-          </div>
-          <div className={Styles.summaryResume}>
-            <Typography variantStyle="body-small-bold">
-              {cartItems.length} Produtos
-            </Typography>
-            <Typography variantStyle="body-small-bold">R$ {total}</Typography>
-            <Typography variantStyle="body-small-bold">Frete:</Typography>
-            <Typography variantStyle="body-small-bold">R$ {freight}</Typography>
-          </div>
-          <Divider style={{ borderColor: "#780BF7" }} />
-          <div className={Styles.total}>
-            <Typography variantStyle="body-large-bold">
-              <ShoppingBagIcon />
-              <span style={{ marginLeft: "4px" }}>Total:</span>
-            </Typography>
-            <Typography variantStyle="body-large-bold" className={Styles.total}>
-              R$ {total + freight}
-            </Typography>
-          </div>
-          <div className={Styles.cartActions}>
-            <Button onClick={handleRedirect} variant="secondary">
-              Continuar comprando
-            </Button>
-            <Button onClick={() => console.log("pagamento")}>
-              Ir para pagamento
-            </Button>
-          </div>
-        </div>
+        <CartSummary
+          cartItems={cartItems}
+          total={total}
+          freight={freight}
+          handleRedirect={handleRedirect}
+        />
       </section>
     </main>
   );
