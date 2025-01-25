@@ -1,6 +1,6 @@
 import { ShoppingBagIcon } from "../../common/icons/ShoppingBagIcon";
 import { Product } from "../../common/types/product";
-import Button from "../Button";
+import CartSummaryActions from "../CartSummaryActions";
 import Divider from "../Divider";
 import Field from "../Field";
 import Typography from "../Typography";
@@ -50,14 +50,7 @@ const CartSummary = ({
           R$ {total + freight}
         </Typography>
       </div>
-      <div className={Styles.cartActions}>
-        <Button onClick={handleRedirect} variant="secondary">
-          Continuar comprando
-        </Button>
-        <Button onClick={() => console.log("pagamento")}>
-          Ir para pagamento
-        </Button>
-      </div>
+      <CartSummaryActions handleRedirect={handleRedirect} />
     </div>
   );
 };
