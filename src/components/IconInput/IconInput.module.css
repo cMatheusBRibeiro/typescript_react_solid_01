@@ -1,0 +1,10 @@
+.IconInputContainer {
+  display: flex;
+  width: 100%;
+}
+
+.IconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

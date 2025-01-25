@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 import Styles from "./Input.module.css";
 
-type InputProps = {
+export type InputProps = {
   variant?: "primary" | "secondary";
   placeholder?: string;
   value?: string;
@@ -24,11 +24,11 @@ const Input = ({
     <input
       type={type}
       style={style}
-      {...props}
-      onChange={() => onChange}
+      onChange={onChange}
       id={id}
       placeholder={placeholder}
       className={Styles[variant]}
+      {...props}
     />
   );
 };
