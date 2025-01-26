@@ -8,6 +8,7 @@ import ProductDetail from "../../components/ProductDetail/ProductDetail";
 import { PRODUCTS_BASE_URL } from "../../common/constants/endpoints";
 import { Product } from "../../common/types/product";
 import StatusHandler from "../../common/utils/statusHandler";
+import BackgroundBanner from "../../components/BackgroundBanner";
 
 type ProductDetailsPageProps = {
   addToCart: (product: Product) => void;
@@ -19,52 +20,58 @@ function ProductDetailsPage({ addToCart }: ProductDetailsPageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const getProduct = async () => {
     // Faz a requisição para buscar o produto com base no ID
-    axios
-      .get(PRODUCTS_BASE_URL)
-      .then((response) => {
-        const foundProduct = response.data.products.find(
-          (product: Product) => product.id.toString() === id
-        );
+    try {
+      const { data } = await axios.get(PRODUCTS_BASE_URL);
 
-        if (foundProduct) {
-          setProduct(foundProduct);
-        } else {
-          setError("Produto não encontrado.");
-        }
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError("Erro ao carregar os detalhes do produto.");
-        setIsLoading(false);
-      });
+      const foundProduct = data.products.find(
+        (product: Product) => product.id.toString() === id
+      );
+
+      if (foundProduct) {
+        setProduct(foundProduct);
+      } else {
+        setError("Produto não encontrado.");
+      }
+    } catch {
+      setError("Erro ao carregar os detalhes do produto.");
+    }
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getProduct();
   }, [id]);
 
   return (
-    <main className="container">
-      <section>
-        <div className={Styles.productContainer}>
-          <Typography variant="h4">Detalhes do Produto</Typography>
+    <>
+      <BackgroundBanner backgroundImage="https://raw.githubusercontent.com/gss-patricia/use-dev-assets/refs/heads/main/banner-secoes.png" />
+      <main className="container">
+        <section>
+          <div className={Styles.productContainer}>
+            <Typography variant="h4">Detalhes do Produto</Typography>
 
-          <StatusHandler isLoading={isLoading} error={error}>
-            {product ? (
-              <ProductDetail
-                id={product.id}
-                title={product.label}
-                description={product.description}
-                price={product.price}
-                imageUrl={product.imageSrc}
-                colors={product.colors}
-                addToCart={addToCart}
-              />
-            ) : (
-              <p>Produto não encontrado.</p>
-            )}
-          </StatusHandler>
-        </div>
-      </section>
-    </main>
+            <StatusHandler isLoading={isLoading} error={error}>
+              {product ? (
+                <ProductDetail
+                  id={product.id}
+                  title={product.label}
+                  description={product.description}
+                  price={product.price}
+                  imageUrl={product.imageSrc}
+                  colors={product.colors}
+                  addToCart={addToCart}
+                />
+              ) : (
+                <p>Produto não encontrado.</p>
+              )}
+            </StatusHandler>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
 
