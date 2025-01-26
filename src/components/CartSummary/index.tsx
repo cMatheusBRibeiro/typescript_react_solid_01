@@ -1,5 +1,4 @@
 import { ShoppingBagIcon } from "../../common/icons/ShoppingBagIcon";
-import { Product } from "../../common/types/product";
 import CartSummaryActions, {
   CartSummaryActionsType,
 } from "../CartSummaryActions";
@@ -9,13 +8,13 @@ import Typography from "../Typography";
 import Styles from "./CartSummary.module.css";
 
 type CartSummaryProps = {
-  cartItems: Product[];
+  cartCount: number;
   total: number;
   freight: number;
 } & CartSummaryActionsType;
 
 const CartSummary = ({
-  cartItems,
+  cartCount,
   total,
   freight,
   handleRedirect,
@@ -36,7 +35,7 @@ const CartSummary = ({
       </div>
       <div className={Styles.summaryResume}>
         <Typography variantStyle="body-small-bold">
-          {cartItems.length} Produtos
+          {cartCount} {cartCount > 1 ? "Produtos" : "Produto"}
         </Typography>
         <Typography variantStyle="body-small-bold">R$ {total}</Typography>
         <Typography variantStyle="body-small-bold">Frete:</Typography>
