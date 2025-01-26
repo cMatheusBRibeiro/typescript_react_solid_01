@@ -16,43 +16,42 @@ import StatusHandler from "../../common/utils/statusHandler";
 
 function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const [categoriesError, setCategoriesError] = useState<string | null>(null);
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const [productsError, setProductsError] = useState<string | null>(null);
+
+  const getAllCategories = async () => {
+    try {
+      const { data } = await axios.get(CATEGORIES_BASE_URL);
+      setCategories(data.categories);
+    } catch {
+      setCategoriesError("Erro ao carregar categorias.");
+    }
+    setIsLoadingCategories(false);
+  };
+
+  const getAllProducts = async () => {
+    try {
+      const { data } = await axios.get(PRODUCTS_BASE_URL);
+      setProducts(data.products);
+    } catch {
+      setProductsError("Erro ao carregar produtos.");
+    }
+    setIsLoadingProducts(false);
+  };
+
+  // Fetch de categorias e categorias
+  useEffect(() => {
+    getAllCategories();
+    getAllProducts();
+  }, []);
 
   const handleSubscribe = (email: string) => {
     console.log(`Usuário inscrito com o email: ${email}`);
   };
-
-  // Fetch de categorias
-  useEffect(() => {
-    axios
-      .get(CATEGORIES_BASE_URL)
-      .then((response) => {
-        setCategories(response.data.categories);
-        setIsLoadingCategories(false);
-      })
-      .catch((err) => {
-        setCategoriesError("Erro ao carregar categorias.");
-        setIsLoadingCategories(false);
-      });
-  }, []);
-
-  // Fetch de produtos
-  useEffect(() => {
-    axios
-      .get(PRODUCTS_BASE_URL)
-      .then((response) => {
-        setProducts(response.data.products);
-        setIsLoadingProducts(false);
-      })
-      .catch((err) => {
-        setProductsError("Erro ao carregar produtos.");
-        setIsLoadingProducts(false);
-      });
-  }, []);
 
   return (
     <>
