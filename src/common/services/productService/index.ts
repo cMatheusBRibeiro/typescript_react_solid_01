@@ -5,7 +5,7 @@ import { Product } from "../../types/product";
 
 const ProductService = (http: Http): IProductService => {
   return {
-    getAllProducts: async () => {
+    fetchProducts: async () => {
       try {
         const data = await http.get<{ products: Product[] }>(PRODUCTS_BASE_URL);
         return data.products;
@@ -13,7 +13,7 @@ const ProductService = (http: Http): IProductService => {
         throw new Error("Erro ao buscar todos os produtos!");
       }
     },
-    getProductById: async (id: number) => {
+    fetchProductById: async (id: number) => {
       try {
         const data = await http.get<{ products: Product[] }>(PRODUCTS_BASE_URL);
         return data.products.find((product) => product.id === id);
