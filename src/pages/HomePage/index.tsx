@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import Button from "../../components/Button";
 import Categories from "../../components/Categories";
 import HeroBanner from "../../components/HeroBanner";
@@ -13,41 +11,20 @@ import {
 } from "../../common/constants/endpoints";
 import { Product } from "../../common/types/product";
 import StatusHandler from "../../common/utils/statusHandler";
+import useFetch from "../../common/hooks/useFetch";
 
 function HomePage() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
-  const [categoriesError, setCategoriesError] = useState<string | null>(null);
+  const {
+    data: categoriesData,
+    isLoading: isLoadingCategories,
+    error: categoriesError,
+  } = useFetch<{ categories: Category[] }>(CATEGORIES_BASE_URL);
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
-  const [productsError, setProductsError] = useState<string | null>(null);
-
-  const getAllCategories = async () => {
-    try {
-      const { data } = await axios.get(CATEGORIES_BASE_URL);
-      setCategories(data.categories);
-    } catch {
-      setCategoriesError("Erro ao carregar categorias.");
-    }
-    setIsLoadingCategories(false);
-  };
-
-  const getAllProducts = async () => {
-    try {
-      const { data } = await axios.get(PRODUCTS_BASE_URL);
-      setProducts(data.products);
-    } catch {
-      setProductsError("Erro ao carregar produtos.");
-    }
-    setIsLoadingProducts(false);
-  };
-
-  // Fetch de categorias e categorias
-  useEffect(() => {
-    getAllCategories();
-    getAllProducts();
-  }, []);
+  const {
+    data: productsData,
+    isLoading: isLoadingProducts,
+    error: productsError,
+  } = useFetch<{ products: Product[] }>(PRODUCTS_BASE_URL);
 
   const handleSubscribe = (email: string) => {
     console.log(`Usuário inscrito com o email: ${email}`);
@@ -69,11 +46,18 @@ function HomePage() {
       </HeroBanner>
       <main className="container">
         <StatusHandler isLoading={isLoadingCategories} error={categoriesError}>
-          <Categories categories={categories} />
+          {categoriesData && (
+            <Categories categories={categoriesData?.categories} />
+          )}
         </StatusHandler>
 
         <StatusHandler isLoading={isLoadingProducts} error={productsError}>
-          <ProductList title="Promoções especiais" products={products} />
+          {productsData && (
+            <ProductList
+              title="Promoções especiais"
+              products={productsData?.products}
+            />
+          )}
         </StatusHandler>
       </main>
       <Newsletter onSubscribe={handleSubscribe} />
