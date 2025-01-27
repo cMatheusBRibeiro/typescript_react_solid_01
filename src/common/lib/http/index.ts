@@ -1,12 +1,8 @@
-import axios, { CreateAxiosDefaults } from "axios";
-import { Http } from "./http.interface";
+import axios from "axios";
+import { Http } from "../../interfaces/http.interface";
 
-export const createHttp = (
-  config: CreateAxiosDefaults = {
-    baseURL: "",
-  }
-): Http => {
-  const _axios = axios.create(config);
+export const createHttp = (): Http => {
+  const _axios = axios.create();
 
   return {
     get: <T>(url: string): Promise<T> => {
